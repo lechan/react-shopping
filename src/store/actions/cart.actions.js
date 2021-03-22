@@ -14,3 +14,8 @@ export const saveCarts = createAction('saveCarts')
 export const deleteProductFromCart = createAction('deleteProductFromCart')
 // 6.删除本地购物车中的商品
 export const deleteProductFromLocalCart = createAction('deleteProductFromLocalCart')
+
+// 7.向服务端发送请求，将哪一个商品更新数量
+export const changeSeviceProductNumber = createAction('changeSeviceProductNumber')
+// 8. 更新本地购物车中的商品数量
+export const changeLocalProductNumber = createAction('changeLocalProductNumber')

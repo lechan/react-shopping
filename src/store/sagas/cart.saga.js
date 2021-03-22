@@ -6,7 +6,9 @@ import {
   loadCarts,
   saveCarts,
   deleteProductFromCart,
-  deleteProductFromLocalCart
+  deleteProductFromLocalCart,
+  changeSeviceProductNumber,
+  changeLocalProductNumber
 } from '../actions/cart.actions'
 
 function* handleAddProductToCart(action) {
@@ -28,6 +30,11 @@ function* handleDeleteProductFromCart(action) {
   yield put(deleteProductFromLocalCart(data.index))
 }
 
+function* handleChangeSeviceProductNumber(action) {
+  const { data } = yield axios.put('http://localhost:3005/cart', action.payload)
+  yield put(changeLocalProductNumber(data))
+}
+
 export default function* cartSaga () {
   // 将商品添加到购物车
   yield takeEvery(addProductToCart, handleAddProductToCart)
@@ -35,4 +42,6 @@ export default function* cartSaga () {
   yield takeEvery(loadCarts, handleLoadCarts)
   // 向服务端发送请求，需要删除哪一个商品
   yield takeEvery(deleteProductFromCart, handleDeleteProductFromCart)
+  // 向服务端发送请求，将哪一个商品更新数量
+  yield takeEvery(changeSeviceProductNumber, handleChangeSeviceProductNumber)
 }
