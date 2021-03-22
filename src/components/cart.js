@@ -5,9 +5,13 @@ import * as productActions from '../store/actions/product.actions'
 import * as cartActions from '../store/actions/cart.actions'
 
 class Cart extends Component {
+  componentDidMount() {
+    // 向服务端发送请求，获取购物车列表数据
+    const { loadCarts } = this.props
+    loadCarts()
+  }
   render() {
-    const { carts } = this.props
-    console.log(carts)
+    const { carts, deleteProductFromCart } = this.props
     return (
       <section className="container content-section">
         <h2 className="section-header">购物车</h2>
@@ -17,28 +21,21 @@ class Cart extends Component {
           <span className="cart-quantity cart-header cart-column">数量</span>
         </div>
         <div className="cart-items">
-          <div className="cart-row">
-            <div className="cart-item cart-column">
-              <img className="cart-item-image" src="images/01.webp" width="100" height="100" alt="" />
-              <span className="cart-item-title">小户型简约现代网红双人三人客厅科技布免洗布艺</span>
-            </div>
-            <span className="cart-price cart-column">￥1020</span>
-            <div className="cart-quantity cart-column">
-              <input className="cart-quantity-input" type="number" />
-              <button className="btn btn-danger" type="button">删除</button>
-            </div>
-          </div>
-          <div className="cart-row">
-            <div className="cart-item cart-column">
-              <img className="cart-item-image" src="images/02.webp" width="100" height="100" alt="" />
-              <span className="cart-item-title">11全网通4G手机官方iPhonexr</span>
-            </div>
-            <span className="cart-price cart-column">￥4758</span>
-            <div className="cart-quantity cart-column">
-              <input className="cart-quantity-input" type="number" />
-              <button className="btn btn-danger" type="button">删除</button>
-            </div>
-          </div>
+          {
+            carts.map(product => (
+              <div className="cart-row" key={product.id}>
+                <div className="cart-item cart-column">
+                  <img className="cart-item-image" src={product.thumbnail} width="100" height="100" alt="" />
+                  <span className="cart-item-title">{product.title}</span>
+                </div>
+                <span className="cart-price cart-column">￥{product.price}</span>
+                <div className="cart-quantity cart-column">
+                  <input className="cart-quantity-input" type="number" value={product.count} onChange={() => {}} />
+                  <button className="btn btn-danger" type="button" onClick={() => deleteProductFromCart(product.id)}>删除</button>
+                </div>
+              </div>
+            ))
+          }
         </div>
         <div className="cart-total">
           <strong className="cart-total-title">总价</strong>

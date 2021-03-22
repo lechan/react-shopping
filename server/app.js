@@ -79,15 +79,18 @@ app.delete("/cart/delete", async (req, res) => {
   // 如果购物车id不存在
   if (!cid) return res.status(400).send({ msg: "购物车商品id不存在" });
   // 查找要删除的购物车中的商品的索引
-  const index = cart.findIndex((item) => item.id == cid);
+  const index = cart.findIndex((item) => item.id === cid);
   // 从购物车中删除商品
   let result = cart.splice(index, 1);
   // 如果删除失败
-  if (result.length == 0) return res.status(400).send({ msg: "商品删除失败" });
+  if (result.length === 0) return res.status(400).send({ msg: "商品删除失败" });
   // 存储结果
   await writeFile("./data/cart.json", JSON.stringify(cart));
   // 响应
-  res.send({ msg: "商品删除成功" });
+  res.send({
+    msg: "商品删除成功",
+    index
+  });
 });
 
 // 更改购物车中的商品数量
